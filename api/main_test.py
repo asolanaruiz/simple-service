@@ -14,6 +14,10 @@
 # ==============================================================================
 
 from api.main import read_root
+from fastapi.testclient import TestClient
+from api.main import app
+
+client = TestClient(app)
 
 
 def test_read_root():
@@ -25,3 +29,9 @@ def test_read_root():
 
     # Assert
     assert expected == actual
+
+
+def test_create_user():
+    response = client.post(
+        '/users', data={'email': 'foo@bar.com', 'password': 'asdf1234'})
+    assert response.status_code == 200
